@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>AD Jardim Márcia - Telão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#6d5ef5;
+      --bg2:#7041b4;
+      --card:rgba(255,255,255,.14);
+      --card2:rgba(255,255,255,.20);
+      --text:#fff;
+      --muted:rgba(255,255,255,.8);
+      --brand:#29cc7a;
+      --shadow: 0 20px 50px rgba(0,0,0,.25);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 50% -50%, #b39ddb44 10%, transparent 60%),
+                  radial-gradient(900px 500px at 85% 0%, #9575cd33 0%, transparent 60%),
+                  linear-gradient(160deg,var(--bg1),var(--bg2));
+    }
+    .container{max-width:1400px;margin:0 auto;padding:32px 24px 120px}
+    .topbar{display:flex;align-items:center;gap:20px;justify-content:space-between;margin-bottom:18px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand .logo{
+      width: clamp(40px, 6vw, 72px); aspect-ratio:1; border-radius:50%;
+      background:#ffffff1a; backdrop-filter: blur(6px);
+      display:grid; place-items:center; overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .brand .logo img{width:100%;height:100%;object-fit:cover}
+    .brand .title{font-weight:700; letter-spacing:.5px; font-size: clamp(22px, 3.2vw, 54px); text-shadow: 0 2px 0 #0003, 0 8px 24px #0006}
+    .subtitle{font-weight:600; font-size: clamp(14px, 1.8vw, 28px); opacity:.95; margin-top:2px}
+    .actions{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{
+      border:none; border-radius:14px; padding:12px 18px;
+      font-weight:700; color:#fff; background:#7e57c2; cursor:pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,.25);
+      transition: transform .15s ease, background .2s ease, box-shadow .2s;
+      font-size: clamp(12px, 1.4vw, 18px);
+    }
+    .btn:hover{transform:translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,.3);}
+    .btn.active{background: #1eae74;}
+    .section-card{
+      background: linear-gradient( to bottom right, #ffffff1c, #ffffff10 );
+      border:1px solid #ffffff26;
+      border-radius: var(--radius);
+      padding: clamp(18px, 3vw, 34px);
+      box-shadow: var(--shadow);
+    }
+    h2.section-title{
+      display:flex; align-items:center; gap:14px; margin: 0 0 18px 0;
+      font-size: clamp(22px, 3.2vw, 44px);
+      font-weight: 800;
+    }
+    .pill{width:70px;height:6px;border-radius:3px;background:#29b67a88;margin:6px 0 0 52px}
+    /* Avisos */
+    #avisosList{
+      display:grid; gap:12px; grid-template-columns: 1fr;
+      min-height: clamp(160px, 22vh, 260px);
+      border: 2px dashed #ffffff33; border-radius: 14px;
+      padding: clamp(12px, 2vw, 18px); background: #0000000f;
+    }
+    .aviso{
+      display:grid; gap:6px; padding:14px 16px; border-radius: 12px;
+      background: #ffffff10; border:1px solid #ffffff22;
+    }
+    .aviso .titulo{font-weight:700; font-size: clamp(16px, 2.2vw, 28px)}
+    .aviso .meta{opacity:.85; font-size: clamp(12px, 1.5vw, 16px)}
+    .error, .empty{display:grid; place-items:center; color:#fff; opacity:.95; font-size:clamp(16px,2vw,24px)}
+    /* PIX */
+    .pix-grid{
+      display:grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 36px);
+      align-items:start;
+    }
+    .qr-wrap{
+      display:grid; place-items:center;
+      background:#fff; border-radius: 24px; padding: clamp(10px, 2vw, 18px);
+      box-shadow:var(--shadow);
+      max-width: clamp(260px, 40vw, 520px); justify-self:center;
+    }
+    .qr-wrap img{width:100%; height:auto; display:block}
+    .form-card{display:grid; gap:10px}
+    .input{
+      background:#ffffff18; border:1px solid #ffffff30; border-radius: 14px;
+      padding: 16px 18px; color:#fff; font-weight:700; letter-spacing: 1px;
+      font-size: clamp(16px, 2.2vw, 28px);
+    }
+    .hint{font-size: clamp(12px, 1.4vw, 16px); color:var(--muted)}
+    /* Relógio fixo */
+    .clock{
+      position: fixed; right: clamp(12px, 2vw, 22px); bottom: clamp(12px, 2vw, 22px);
+      background: #00000055; color:#fff; padding: 10px 14px; border-radius: 10px; 
+      font-weight:700; letter-spacing:.5px;
+      font-size: clamp(14px, 1.4vw, 20px);
+      z-index: 9999; backdrop-filter: blur(6px); border:1px solid #ffffff33;
+      box-shadow: 0 10px 24px #0006;
+    }
+    @media (max-width: 980px){
+      .pix-grid{grid-template-columns: 1fr; justify-items:center}
+    }
+  </style>
+</head>
+<body>
+  <!-- Config opcional (seu projeto já expõe window.BACKEND_URL) -->
+  <script>
+    window.BACKEND_URL = window.BACKEND_URL || (window.CONFIG && window.CONFIG.BACKEND_URL) || window.API_BASE_URL || "https://jd-marcia-backend.onrender.com";
+  </script>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <span class="logo"><img src="assets/logo_ad_jardim_marcia.svg" alt="Logo"></span>
+        <div>
+          <div class="title">AD Jardim Márcia</div>
+          <div class="subtitle">Setor 13 - Congregação</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn active" id="btnAvisos">📣 Avisos</button>
+        <button class="btn" id="btnPix">💰 PIX</button>
+        <button class="btn" id="btnReload">🔄 Atualizar</button>
+      </div>
+    </div>
+
+    <!-- AVISOS -->
+    <section id="avisosSection" class="section-card">
+      <h2 class="section-title">📢 Mural de Avisos</h2>
+      <div class="pill"></div>
+      <div id="avisosList">
+        <div class="empty">Carregando avisos…</div>
+      </div>
+    </section>
+
+    <!-- PIX -->
+    <section id="pixSection" class="section-card" style="display:none; margin-top:24px">
+      <h2 class="section-title">💸 Dízimos e Ofertas</h2>
+      <div class="pill"></div>
+      <div class="pix-grid" style="margin-top: 8px;">
+        <div class="qr-wrap">
+          <img src="qr_codes/pix_qr_cnpj_oficial.png" alt="PIX QR Code">
+        </div>
+        <div class="form-card">
+          <div>
+            <div class="hint">Chave PIX (CNPJ):</div>
+            <div class="input">44.595.304/0001-14</div>
+          </div>
+          <div>
+            <div class="hint">Observação:</div>
+            <div class="input">JD MARCIA – SETOR 13</div>
+          </div>
+          <div class="hint" style="margin-top:6px">
+            Como contribuir:
+            <ol style="margin-top:6px">
+              <li>Abra o app do seu banco</li>
+              <li>Escolha a opção PIX</li>
+              <li>Escaneie o QR Code ou cole a chave PIX</li>
+              <li>Adicione a observação “JD MARCIA – SETOR 13”</li>
+              <li>Confirme a transação</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="clock" id="clock">--:--</div>
+
+  <script>
+    const avisosSection = document.getElementById("avisosSection");
+    const pixSection    = document.getElementById("pixSection");
+    const btnAvisos     = document.getElementById("btnAvisos");
+    const btnPix        = document.getElementById("btnPix");
+    const btnReload     = document.getElementById("btnReload");
+    const list          = document.getElementById("avisosList");
+
+    function setActive(which){
+      if(which === "avisos"){
+        avisosSection.style.display="block"; pixSection.style.display="none";
+        btnAvisos.classList.add("active"); btnPix.classList.remove("active");
+        history.replaceState(null, "", "#avisos");
+      }else{
+        avisosSection.style.display="none"; pixSection.style.display="block";
+        btnPix.classList.add("active"); btnAvisos.classList.remove("active");
+        history.replaceState(null, "", "#pix");
+      }
+    }
+
+    btnAvisos.addEventListener("click", ()=> setActive("avisos"));
+    btnPix.addEventListener("click",    ()=> setActive("pix"));
+    btnReload.addEventListener("click", ()=> location.reload());
+
+    // atalhos: 1 avisos, 2 pix, R reload
+    window.addEventListener("keydown", (e)=>{
+      if(e.key==="1") setActive("avisos");
+      if(e.key==="2") setActive("pix");
+      if(e.key.toLowerCase()==="r") location.reload();
+    });
+
+    // Hash inicial
+    if(location.hash === "#pix"){ setActive("pix"); }
+
+    // Relógio responsivo
+    function tickClock(){
+      const el = document.getElementById("clock");
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2,"0");
+      const mm = String(now.getMinutes()).padStart(2,"0");
+      el.textContent = `${hh}:${mm}`;
+      requestAnimationFrame(()=>{});
+    }
+    tickClock(); setInterval(tickClock, 1000*15); // atualiza a cada 15s (suficiente para minuto)
+
+    // Busca avisos do backend
+    async function loadAvisos(){
+      try{
+        const base = window.BACKEND_URL;
+        const resp = await fetch(`${base}/api/avisos`, { cache: "no-store" });
+        if(!resp.ok) throw new Error("HTTP "+resp.status);
+        const json = await resp.json();
+        renderAvisos(Array.isArray(json.data) ? json.data : []);
+      }catch(err){
+        list.innerHTML = `<div class="error">Erro ao carregar avisos. Tentando novamente…</div>`;
+        // tenta novamente em 15s
+        setTimeout(loadAvisos, 15000);
+      }
+    }
+
+    function renderAvisos(items){
+      if(!items.length){
+        list.innerHTML = `<div class="empty">Nenhum aviso publicado no momento.</div>`;
+        return;
+      }
+      list.innerHTML = "";
+      for(const av of items){
+        const card = document.createElement("div");
+        card.className = "aviso";
+        const titulo = av.titulo || "Aviso";
+        const msg    = av.mensagem || "";
+        const prio   = av.prioridade || "Normal";
+        const status = av.status || "";
+        const tstamp = (av.timestamp || "").toString().replace("T"," ").replace("Z","");
+        card.innerHTML = `
+          <div class="titulo">${titulo}</div>
+          <div class="meta">${msg}</div>
+          <div class="meta">Prioridade: <b>${prio}</b> • Status: ${status || "—"} • ${tstamp}</div>
+        `;
+        list.appendChild(card);
+      }
+    }
+
+    loadAvisos();
+  </script>
+</body>
+</html>

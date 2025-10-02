@@ -1,0 +1,10 @@
+{
+  "included": [
+    "js/admin-backend-wire.js",
+    "js/backend-config.js",
+    "js/backend-integration.js",
+    "netlify.toml"
+  ],
+  "missing": [],
+  "note": "Copy these files into jd-marcia-netlify/, preserving js/ subfolder. Restart `netlify dev`."
+}

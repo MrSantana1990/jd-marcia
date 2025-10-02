@@ -1,0 +1,5 @@
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(min-width:880px){.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(min-width:880px){.shortcuts{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.shortcuts a{display:block;text-decoration:none}

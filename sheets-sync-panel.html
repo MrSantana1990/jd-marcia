@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sincronização Google Sheets - AD Jardim Márcia</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .sync-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #4f46e5;
+        }
+
+        .sync-section h2 {
+            color: #4f46e5;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .sync-info {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .sync-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-active {
+            background-color: #4caf50;
+        }
+
+        .status-inactive {
+            background-color: #f44336;
+        }
+
+        .status-syncing {
+            background-color: #ff9800;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .data-table th {
+            background: #f5f5f5;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .data-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .sheet-link {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sheet-link:hover {
+            text-decoration: underline;
+        }
+
+        .sync-log {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: #4caf50;
+        }
+
+        .toast.error {
+            background: #f44336;
+        }
+
+        .toast.info {
+            background: #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="window.history.back()">← Voltar</button>
+
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Sincronização Google Sheets</h1>
+            <p>Gerencie a integração com a planilha do Google Sheets</p>
+        </div>
+
+        <div class="content">
+            <!-- Status da Sincronização -->
+            <div class="sync-section">
+                <h2>Status da Sincronização</h2>
+                <div class="sync-info">
+                    <div class="sync-status">
+                        <div class="status-indicator status-active" id="sync-indicator"></div>
+                        <span id="sync-status-text">Sincronização Ativa</span>
+                    </div>
+                    <p><strong>Última sincronização:</strong> <span id="last-sync">Nunca</span></p>
+                    <p><strong>Planilha:</strong> <a href="https://docs.google.com/spreadsheets/d/1VCzpN_lkaeX8C8wIk77Nw4_YFjgnuXrL3Zle19q0Yig/edit" target="_blank" class="sheet-link">db_jd_marcia</a></p>
+                </div>
+
+                <button class="btn" onclick="syncNow()">🔄 Sincronizar Agora</button>
+                <button class="btn btn-secondary" onclick="toggleAutoSync()">⚙️ <span id="auto-sync-text">Desativar Auto-Sync</span></button>
+                <button class="btn btn-success" onclick="exportAllData()">📤 Exportar Tudo</button>
+            </div>
+
+            <!-- Controle por Aba -->
+            <div class="sync-section">
+                <h2>Controle por Aba</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Aba</th>
+                            <th>Registros</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sheets-table">
+                        <!-- Será preenchido via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Log de Sincronização -->
+            <div class="sync-section">
+                <h2>Log de Sincronização</h2>
+                <div class="sync-log" id="sync-log">
+                    [INFO] Sistema de sincronização inicializado<br>
+                    [INFO] Aguardando comandos de sincronização...
+                </div>
+                <button class="btn btn-secondary" onclick="clearLog()">🗑️ Limpar Log</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="sheets-api.js"></script>
+    <script src="data-manager-sheets.js"></script>
+    <script>
+        let autoSyncEnabled = true;
+        let syncInterval;
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSyncStatus();
+            loadSheetsTable();
+            startAutoSync();
+        });
+
+        function updateSyncStatus() {
+            const config = dataManager.getConfig();
+            const lastSync = config?.lastSync;
+            
+            if (lastSync) {
+                document.getElementById('last-sync').textContent = new Date(lastSync).toLocaleString('pt-BR');
+            }
+
+            // Atualizar indicador de status
+            const indicator = document.getElementById('sync-indicator');
+            const statusText = document.getElementById('sync-status-text');
+            
+            if (autoSyncEnabled) {
+                indicator.className = 'status-indicator status-active';
+                statusText.textContent = 'Sincronização Ativa';
+            } else {
+                indicator.className = 'status-indicator status-inactive';
+                statusText.textContent = 'Sincronização Desativada';
+            }
+        }
+
+        function loadSheetsTable() {
+            const sheets = [
+                { name: 'louvores', displayName: 'Louvores', data: dataManager.getLouvores() },
+                { name: 'oracoes', displayName: 'Orações', data: dataManager.getOracoes() },
+                { name: 'visitantes', displayName: 'Visitantes', data: dataManager.getVisitantes() },
+                { name: 'documentos', displayName: 'Documentos', data: dataManager.getDocumentos() },
+                { name: 'avisos', displayName: 'Avisos', data: dataManager.getAvisos() }
+            ];
+
+            const tableBody = document.getElementById('sheets-table');
+            tableBody.innerHTML = sheets.map(sheet => `
+                <tr>
+                    <td>
+                        <a href="${sheetsAPI.getSheetUrl(sheet.name)}" target="_blank" class="sheet-link">
+                            ${sheet.displayName}
+                        </a>
+                    </td>
+                    <td>${sheet.data.length}</td>
+                    <td>
+                        <span style="color: #4caf50;">✓ Sincronizado</span>
+                    </td>
+                    <td>
+                        <button class="btn" onclick="syncSheet('${sheet.name}')" style="padding: 5px 10px; font-size: 12px;">
+                            🔄 Sync
+                        </button>
+                        <button class="btn btn-success" onclick="exportSheet('${sheet.name}')" style="padding: 5px 10px; font-size: 12px;">
+                            📤 Export
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function syncNow() {
+            const indicator = document.getElementById('sync-indicator');
+            const statusText = document.getElementById('sync-status-text');
+            
+            // Mostrar status de sincronização
+            indicator.className = 'status-indicator status-syncing';
+            statusText.textContent = 'Sincronizando...';
+            
+            addToLog('[INFO] Iniciando sincronização manual...');
+            
+            try {
+                const results = await dataManager.syncWithSheets();
+                
+                if (results) {
+                    addToLog('[SUCCESS] Sincronização concluída com sucesso');
+                    showToast('Sincronização concluída com sucesso!', 'success');
+                } else {
+                    addToLog('[ERROR] Falha na sincronização');
+                    showToast('Erro na sincronização', 'error');
+                }
+            } catch (error) {
+                addToLog('[ERROR] ' + error.message);
+                showToast('Erro na sincronização: ' + error.message, 'error');
+            }
+            
+            updateSyncStatus();
+            loadSheetsTable();
+        }
+
+        async function syncSheet(sheetName) {
+            addToLog(`[INFO] Sincronizando aba: ${sheetName}`);
+            
+            try {
+                let data = [];
+                switch(sheetName) {
+                    case 'louvores':
+                        data = dataManager.getLouvores();
+                        break;
+                    case 'oracoes':
+                        data = dataManager.getOracoes();
+                        break;
+                    case 'visitantes':
+                        data = dataManager.getVisitantes();
+                        break;
+                    case 'documentos':
+                        data = dataManager.getDocumentos();
+                        break;
+                    case 'avisos':
+                        data = dataManager.getAvisos();
+                        break;
+                }
+
+                await sheetsAPI.saveToSheet(sheetName, data);
+                addToLog(`[SUCCESS] Aba ${sheetName} sincronizada com sucesso`);
+                showToast(`Aba ${sheetName} sincronizada!`, 'success');
+            } catch (error) {
+                addToLog(`[ERROR] Erro ao sincronizar ${sheetName}: ${error.message}`);
+                showToast(`Erro ao sincronizar ${sheetName}`, 'error');
+            }
+        }
+
+        function exportSheet(sheetName) {
+            dataManager.exportToCSV(sheetName);
+            addToLog(`[INFO] Exportando aba: ${sheetName}`);
+            showToast(`Exportando ${sheetName}...`, 'info');
+        }
+
+        function exportAllData() {
+            const sheets = ['louvores', 'oracoes', 'visitantes', 'documentos', 'avisos'];
+            sheets.forEach(sheet => {
+                setTimeout(() => {
+                    dataManager.exportToCSV(sheet);
+                }, 500);
+            });
+            addToLog('[INFO] Exportando todos os dados...');
+            showToast('Exportando todos os dados...', 'info');
+        }
+
+        function toggleAutoSync() {
+            autoSyncEnabled = !autoSyncEnabled;
+            const button = document.getElementById('auto-sync-text');
+            
+            if (autoSyncEnabled) {
+                button.textContent = 'Desativar Auto-Sync';
+                startAutoSync();
+                addToLog('[INFO] Auto-sincronização ativada');
+                showToast('Auto-sincronização ativada', 'success');
+            } else {
+                button.textContent = 'Ativar Auto-Sync';
+                stopAutoSync();
+                addToLog('[INFO] Auto-sincronização desativada');
+                showToast('Auto-sincronização desativada', 'info');
+            }
+            
+            updateSyncStatus();
+        }
+
+        function startAutoSync() {
+            if (syncInterval) clearInterval(syncInterval);
+            
+            // Sincronizar a cada 5 minutos
+            syncInterval = setInterval(() => {
+                if (autoSyncEnabled) {
+                    addToLog('[INFO] Sincronização automática executada');
+                    syncNow();
+                }
+            }, 5 * 60 * 1000);
+        }
+
+        function stopAutoSync() {
+            if (syncInterval) {
+                clearInterval(syncInterval);
+                syncInterval = null;
+            }
+        }
+
+        function addToLog(message) {
+            const log = document.getElementById('sync-log');
+            const timestamp = new Date().toLocaleTimeString('pt-BR');
+            log.innerHTML += `[${timestamp}] ${message}<br>`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('sync-log').innerHTML = '[INFO] Log limpo<br>';
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Limpar intervalo quando a página for fechada
+        window.addEventListener('beforeunload', () => {
+            stopAutoSync();
+        });
+    </script>
+</body>
+</html>
+

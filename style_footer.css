@@ -1,0 +1,55 @@
+/* Estilos para Footer */
+footer {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 50px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content p {
+    margin: 8px 0;
+    opacity: 0.9;
+}
+
+.admin-access {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.admin-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.admin-link:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    footer {
+        padding: 20px 15px;
+    }
+    
+    .admin-link {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
+

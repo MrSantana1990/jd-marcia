@@ -1,0 +1,1221 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>AD Jardim Márcia - Telão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.8);
+      --text-accent: #00f2fe;
+      --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+      --shadow-intense: 0 20px 60px rgba(0, 0, 0, 0.4);
+      --border-radius: 24px;
+      --border-radius-lg: 32px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+      color: var(--text-primary);
+      background: var(--dark-gradient);
+      position: relative;
+      animation: backgroundShift 20s ease-in-out infinite alternate;
+    }
+
+    /* Efeito de partículas de fundo */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, rgba(102, 126, 234, 0.8) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 15s infinite linear;
+    }
+
+    /* Efeito de aurora boreal */
+    .aurora {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      background: 
+        radial-gradient(ellipse 80% 50% at 20% -20%, rgba(120, 119, 198, 0.3), transparent),
+        radial-gradient(ellipse 60% 80% at 80% 120%, rgba(255, 119, 198, 0.2), transparent),
+        radial-gradient(ellipse 100% 70% at 50% 50%, rgba(79, 172, 254, 0.1), transparent);
+      animation: auroraShift 25s ease-in-out infinite alternate;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 40px 32px 120px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      backdrop-filter: blur(20px);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius);
+      padding: 24px 32px;
+      box-shadow: var(--shadow-glow);
+      animation: slideInFromTop 1s ease-out;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand .logo {
+      width: clamp(80px, 9vw, 130px);
+      padding: clamp(8px, 1.5vw, 14px);
+      border-radius: 22px;
+      background: rgba(15, 23, 42, 0.55);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.45);
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand .logo::before {
+      content: '';
+      position: absolute;
+      inset: -14px;
+      border-radius: 28px;
+      background: radial-gradient(circle at 50% 35%, rgba(79, 172, 254, 0.6), rgba(15, 23, 42, 0));
+      z-index: -1;
+      opacity: 0.7;
+      filter: blur(18px);
+    }
+
+    .brand .logo img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 16px;
+      filter: drop-shadow(0 12px 18px rgba(15, 23, 42, 0.4));
+    }
+
+    .brand .title {
+      font-weight: 900;
+      font-size: clamp(28px, 4vw, 72px);
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(79, 172, 254, 0.5);
+      animation: textGlow 2s ease-in-out infinite alternate;
+    }
+
+    .subtitle {
+      font-weight: 600;
+      font-size: clamp(16px, 2.2vw, 32px);
+      color: var(--text-secondary);
+      margin-top: 8px;
+      animation: fadeInUp 1.5s ease-out 0.3s both;
+    }
+
+    .actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: var(--border-radius);
+      padding: 16px 24px;
+      font-weight: 700;
+      font-size: clamp(14px, 1.6vw, 20px);
+      color: var(--text-primary);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      box-shadow: var(--shadow-glow);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--accent-gradient);
+      transition: left 0.5s ease;
+      z-index: -1;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(79, 172, 254, 0.4);
+    }
+
+    .btn:hover::before {
+      left: 0;
+    }
+
+    .btn.active {
+      background: var(--success-gradient);
+      box-shadow: 0 0 30px rgba(67, 233, 123, 0.5);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .section-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(30px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius-lg);
+      padding: clamp(24px, 4vw, 48px);
+      box-shadow: var(--shadow-intense);
+      position: relative;
+      overflow: hidden;
+      animation: slideInFromBottom 1s ease-out 0.5s both;
+    }
+
+    .section-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--accent-gradient);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    h2.section-title {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 0 0 32px 0;
+      font-size: clamp(28px, 4vw, 56px);
+      font-weight: 900;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+
+    .pill {
+      width: 120px;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--success-gradient);
+      margin: 12px 0 0 72px;
+      box-shadow: 0 0 20px rgba(67, 233, 123, 0.6);
+      animation: pillGlow 2s ease-in-out infinite alternate;
+    }
+
+    /* Avisos com efeitos fantásticos */
+    #avisosList {
+      min-height: clamp(200px, 30vh, 400px);
+      border: 3px solid transparent;
+      border-radius: var(--border-radius);
+      padding: clamp(16px, 3vw, 32px);
+      background: 
+        linear-gradient(var(--dark-gradient), var(--dark-gradient)) padding-box,
+        var(--accent-gradient) border-box;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #avisosList::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent-gradient);
+      opacity: 0.1;
+      animation: borderPulse 4s ease-in-out infinite;
+    }
+
+    .carousel {
+      position: relative;
+      min-height: clamp(220px, 28vh, 420px);
+    }
+
+    .slides {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--border-radius);
+      min-height: clamp(180px, 32vh, 520px);
+    }
+
+    .slide {
+      display: none;
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      animation: slideEnter 0.8s ease-out;
+    }
+
+    .slide .aviso {
+      background: var(--glass-bg);
+      backdrop-filter: blur(30px);
+      border: 2px solid var(--glass-border);
+      border-radius: var(--border-radius);
+      padding: clamp(24px, 3vw, 40px);
+      box-shadow: var(--shadow-intense);
+      position: relative;
+      overflow: hidden;
+      animation: avisoGlow 4s ease-in-out infinite alternate;
+    }
+
+    .slide .aviso::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(79, 172, 254, 0.3), transparent);
+      animation: rotate 8s linear infinite;
+      z-index: -1;
+    }
+
+    .slide .titulo {
+      font-weight: 900;
+      font-size: clamp(24px, 3.5vw, 48px);
+      background: var(--warning-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      text-shadow: 0 0 30px rgba(250, 112, 154, 0.5);
+      animation: titlePulse 3s ease-in-out infinite;
+    }
+
+    .slide .meta {
+      font-size: clamp(18px, 2.2vw, 28px);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      animation: fadeInUp 1s ease-out 0.5s both;
+    }
+
+    .chips {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .chip {
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: clamp(14px, 1.6vw, 18px);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      color: var(--text-primary);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      animation: chipFloat 3s ease-in-out infinite alternate;
+    }
+
+    .chip-prio {
+      background: var(--warning-gradient);
+      box-shadow: 0 0 25px rgba(250, 112, 154, 0.6);
+      animation: chipGlow 2s ease-in-out infinite alternate;
+    }
+
+    .chip-time {
+      background: var(--accent-gradient);
+      box-shadow: 0 0 25px rgba(79, 172, 254, 0.6);
+    }
+
+    .dots {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      border: 2px solid var(--glass-border);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .dot::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .dot.active {
+      background: var(--success-gradient);
+      transform: scale(1.3);
+      box-shadow: 0 0 20px rgba(67, 233, 123, 0.8);
+    }
+
+    .dot.active::before {
+      opacity: 1;
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+
+    .dot:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 15px rgba(79, 172, 254, 0.6);
+    }
+
+    .error, .empty {
+      display: grid;
+      place-items: center;
+      color: var(--text-secondary);
+      font-size: clamp(20px, 2.5vw, 32px);
+      font-weight: 600;
+      min-height: 200px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    /* PIX Section */
+    .pix-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(24px, 4vw, 48px);
+      align-items: start;
+    }
+
+    .qr-wrap {
+      display: grid;
+      place-items: center;
+      background: var(--text-primary);
+      border-radius: var(--border-radius-lg);
+      padding: clamp(16px, 3vw, 28px);
+      box-shadow: var(--shadow-intense);
+      /* Maior para projeção */
+      max-width: clamp(420px, 60vw, 900px);
+      justify-self: center;
+      position: relative;
+      overflow: hidden;
+      animation: qrGlow 4s ease-in-out infinite alternate;
+    }
+
+    .qr-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      background: var(--success-gradient);
+      border-radius: var(--border-radius-lg);
+      z-index: -1;
+      animation: rotate 15s linear infinite;
+    }
+
+    .qr-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+    }
+
+    .qr-wrap .qr-label { margin-bottom: clamp(12px, 2vw, 24px); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: #0f172a; font-size: clamp(18px, 2.4vw, 32px); text-align: center; }
+
+    .scan-hint { margin-top: 10px; font-weight: 900; letter-spacing: 2px; color: #222; text-align:center; font-size: clamp(16px, 2vw, 28px); opacity:.85 }
+    .qr-zoom-hint { position:absolute; right:10px; bottom:8px; color:#000; background:#fff; border-radius:999px; padding:6px 10px; font-weight:700; font-size: clamp(12px, 1.4vw, 14px); opacity:.85 }
+
+    .form-card {
+      display: grid;
+      gap: 20px;
+    }
+
+    .input {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 2px solid var(--glass-border);
+      border-radius: var(--border-radius);
+      padding: 20px 24px;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: clamp(18px, 2.5vw, 32px);
+      letter-spacing: 1px;
+      box-shadow: var(--shadow-glow);
+      transition: all 0.3s ease;
+    }
+
+    .input:hover {
+      border-color: var(--text-accent);
+      box-shadow: 0 0 30px rgba(79, 172, 254, 0.4);
+    }
+
+    .hint {
+      font-size: clamp(14px, 1.8vw, 20px);
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    /* Relógio fantástico */
+    .clock {
+      position: fixed;
+      right: clamp(16px, 2vw, 32px);
+      bottom: clamp(16px, 2vw, 32px);
+      transform: none;
+      pointer-events: none;
+      background: var(--glass-bg);
+      backdrop-filter: blur(30px);
+      color: var(--text-primary);
+      padding: 16px 24px;
+      border-radius: var(--border-radius);
+      font-weight: 900;
+      font-size: clamp(20px, 2.4vw, 36px);
+      letter-spacing: 3px;
+      z-index: 9999;
+      border: 2px solid var(--glass-border);
+      box-shadow: var(--shadow-intense);
+      animation: clockGlow 3s ease-in-out infinite alternate;
+    }
+
+    /* ===== Seção Tempo (cronômetro/contagem) ===== */
+    #tempoSection { display:none; }
+    .timer-wrap{ display:grid; gap:12px; justify-items:center; padding: clamp(10px, 2vw, 18px); }
+    .timer-mode{ font-weight:800; color: var(--text-secondary); font-size: clamp(14px, 1.6vw, 18px) }
+    .timer-display{ font-weight:900; letter-spacing:2px; font-size: clamp(48px, 12vw, 160px); padding: clamp(8px, 1.5vw, 16px) clamp(14px, 2vw, 24px); border-radius: 18px; background: var(--glass-bg); border: 2px solid var(--glass-border); box-shadow: var(--shadow-intense) }
+    .timer-hints{ color: var(--text-secondary); font-weight:700; font-size: clamp(12px, 1.6vw, 16px) }
+    .timer-ok{ color:#bbf7d0 }
+    .timer-warn{ color:#fde68a }
+    .timer-alert{ color:#fecaca }
+    .timer-over{ color:#ff4d4f !important; text-shadow: 0 0 12px rgba(255,77,79,.6); animation: overBlink 1s ease-in-out infinite }
+
+    /* ===== Ticker de rodapé ===== */
+    :root{ --ticker-h: clamp(28px, 4vh, 48px); }
+    .ticker{ position: fixed; left:0; right:0; bottom:0; height: var(--ticker-h); background: rgba(0,0,0,.35); border-top:1px solid #ffffff33; backdrop-filter: blur(6px); z-index: 8000; overflow:hidden; display:none; pointer-events: none }
+    .ticker-content{ white-space: nowrap; display:inline-block; padding-left: 100%; animation: tickerMove 40s linear infinite; color:#e8f7ff; font-weight:700; font-size: clamp(12px, 1.6vw, 18px); pointer-events: none }
+    @keyframes tickerMove { 0%{ transform: translateX(0)} 100%{ transform: translateX(-100%)} }
+    @keyframes overBlink { 0%,100%{opacity:1} 50%{opacity:.65} }
+    body.has-ticker .ticker{ display:block }
+    /* Evita que o conteúdo passe por baixo do ticker: o scroll fica dentro do container */
+    body.has-ticker{ overflow: hidden; }
+    body.has-ticker .container{ height: calc(100vh - var(--ticker-h)); overflow: auto; padding-bottom: 16px; }
+    body.has-ticker .clock{ bottom: calc(var(--ticker-h) + 12px); }
+
+    /* Overlay de QR em tela cheia */
+    .qr-overlay { position: fixed; inset:0; background: rgba(0,0,0,.88); backdrop-filter: blur(6px); display:none; place-items:center; z-index: 10000; }
+    .qr-full { text-align:center; }
+    .qr-full img { width: min(82vmin, 980px); height:auto; background:#fff; padding: clamp(18px, 3vmin, 28px); border-radius: 24px; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+    .qr-full .qr-heading { margin-bottom: clamp(12px, 2.6vmin, 28px); color: #e0f2ff; font-weight: 900; font-size: clamp(20px, 3.4vmin, 44px); letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 30px rgba(79, 172, 254, 0.35); }
+    .qr-full .big-text { margin-top: clamp(10px, 2vmin, 18px); color:#fff; font-weight: 900; font-size: clamp(18px, 3vmin, 36px); letter-spacing: 1px }
+    .qr-full .small-text { margin-top: 6px; color:#d8f3ff; font-weight:700; font-size: clamp(14px, 2vmin, 24px) }
+    .qr-close { margin-top: clamp(8px, 1.6vmin, 14px); color:#9fdcff; font-weight:700; font-size: clamp(12px, 1.6vmin, 18px) }
+
+    /* Animações */
+    @keyframes backgroundShift {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(30deg); }
+    }
+
+    @keyframes auroraShift {
+      0% { transform: translateX(-10%) rotate(-2deg); }
+      100% { transform: translateX(10%) rotate(2deg); }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes slideInFromTop {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes slideInFromBottom {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes logoGlow {
+      0% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.5); }
+      100% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.8), 0 0 60px rgba(102, 126, 234, 0.4); }
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 20px rgba(79, 172, 254, 0.5); }
+      100% { text-shadow: 0 0 40px rgba(79, 172, 254, 0.8), 0 0 60px rgba(79, 172, 254, 0.4); }
+    }
+
+    @keyframes titleGlow {
+      0% { filter: brightness(1); }
+      100% { filter: brightness(1.3) saturate(1.2); }
+    }
+
+    @keyframes pillGlow {
+      0% { box-shadow: 0 0 15px rgba(67, 233, 123, 0.4); }
+      100% { box-shadow: 0 0 30px rgba(67, 233, 123, 0.8); }
+    }
+
+    @keyframes borderPulse {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.3; }
+    }
+
+    @keyframes slideEnter {
+      from { transform: translateY(50px) scale(0.9); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    @keyframes avisoGlow {
+      0% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
+      100% { box-shadow: 0 30px 60px rgba(79, 172, 254, 0.2), 0 0 40px rgba(79, 172, 254, 0.1); }
+    }
+
+    @keyframes titlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    @keyframes chipFloat {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-3px); }
+    }
+
+    @keyframes chipGlow {
+      0% { box-shadow: 0 0 15px rgba(250, 112, 154, 0.4); }
+      100% { box-shadow: 0 0 30px rgba(250, 112, 154, 0.8); }
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes qrGlow {
+      0% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
+      100% { box-shadow: 0 30px 60px rgba(67, 233, 123, 0.3), 0 0 40px rgba(67, 233, 123, 0.2); }
+    }
+
+    @keyframes clockGlow {
+      0% { box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); }
+      100% { box-shadow: 0 20px 40px rgba(79, 172, 254, 0.3), 0 0 30px rgba(79, 172, 254, 0.2); }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Responsividade */
+    @media (max-width: 1280px), (max-height: 800px) {
+      .slide .titulo { font-size: clamp(20px, 3.2vw, 40px); }
+      .slide .meta   { font-size: clamp(16px, 1.8vw, 22px); }
+      .chip          { font-size: clamp(12px, 1.4vw, 16px); padding: 10px 16px; }
+      .clock         { font-size: clamp(18px, 2.2vw, 30px); padding: 14px 20px; }
+      .slides        { min-height: clamp(160px, 28vh, 420px); }
+    }
+
+    @media (max-width: 980px) {
+      .pix-grid {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+      
+      .topbar {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+      
+      .actions {
+        justify-content: center;
+      }
+      .section-card { padding: 20px; }
+      .dots { gap: 10px; margin-top: 16px; }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 20px 16px 80px;
+      }
+      
+      .brand {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+      }
+      .clock { right: 12px; bottom: 12px; font-size: 18px; padding: 10px 14px; }
+      .slides { min-height: clamp(150px, 30vh, 360px); }
+    }
+
+    /* Telas com pouca altura (projeções com barras do navegador) */
+    @media (max-height: 600px) {
+      .clock { top: 12px; bottom: auto; }
+      .slides { min-height: clamp(120px, 36vh, 320px); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Efeito de partículas -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Efeito de aurora -->
+  <div class="aurora"></div>
+
+  <!-- Config opcional (seu projeto já expõe window.BACKEND_URL) -->
+  <script>
+    window.BACKEND_URL = window.BACKEND_URL || (window.CONFIG && window.CONFIG.BACKEND_URL) || window.API_BASE_URL || "https://jd-marcia-backend.onrender.com";
+  </script>
+  
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <span class="logo"><img src="assets/adbvelem2_refined.png" alt="Brasão Assembleia de Deus Belém"></span>
+        <div>
+          <div class="title">AD Jardim Márcia</div>
+          <div class="subtitle">Santa Lúcia</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn active" id="btnAvisos">📣 Avisos</button>
+        <button class="btn" id="btnPix">💰 PIX</button>
+        <button class="btn" id="btnTempo">⏱ Tempo</button>
+        <button class="btn" id="btnReload">🔄 Atualizar</button>
+      </div>
+    </div>
+
+    <!-- AVISOS -->
+    <section id="avisosSection" class="section-card">
+      <h2 class="section-title">📢 Mural de Avisos</h2>
+      <div class="pill"></div>
+      <div id="avisosList" class="carousel">
+        <div class="slides">
+          <div class="empty">Carregando avisos…</div>
+        </div>
+        <div class="dots" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- PIX -->
+    <section id="pixSection" class="section-card" style="display:none; margin-top:32px">
+      <h2 class="section-title">💸 Dízimos e Ofertas</h2>
+      <div class="pill"></div>
+      <div class="pix-grid" style="margin-top: 16px;">
+        <div class="qr-wrap" id="qrBox">
+          <div class="qr-label">Ofertas e Dízimos</div>
+          <img id="qrImg" src="assets/qr_code_oficial_2.png" alt="PIX QR Code">
+          <div class="scan-hint">APONTE A CÂMERA PARA DOAR</div>
+          <div class="qr-zoom-hint">Pressione Q para ampliar</div>
+        </div>
+        <div class="form-card">
+          <div>
+            <div class="hint">Chave PIX (CNPJ):</div>
+            <div class="input" id="pixKeyText">44.595.304/0001-14</div>
+          </div>
+          <div>
+            <div class="hint">Observação:</div>
+            <div class="input" id="pixObsText">JD MARCIA – SETOR 13</div>
+          </div>
+          <div class="hint" style="margin-top:12px">
+            Como contribuir:
+            <ol style="margin-top:12px; padding-left: 20px; line-height: 1.6;">
+              <li>Abra o app do seu banco</li>
+              <li>Escolha a opção PIX</li>
+              <li>Escaneie o QR Code ou cole a chave PIX</li>
+              <li>Adicione a observação "JD MARCIA – SETOR 13"</li>
+              <li>Confirme a transação</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEMPO -->
+    <section id="tempoSection" class="section-card" style="display:none; margin-top:32px">
+      <h2 class="section-title">⏱ Tempo da Palavra</h2>
+      <div class="pill"></div>
+      <div class="timer-wrap">
+        <div id="timerMode" class="timer-mode">Cronômetro</div>
+        <div id="timerDisplay" class="timer-display timer-ok">00:00</div>
+        <div class="timer-hints">Barra de espaço: Iniciar/Pausar • R: Zerar • T: Alternar Modo • D: Definir Duração</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="clock" id="clock">--:--</div>
+  
+  <!-- Ticker de rodapé -->
+  <div id="footerTicker" class="ticker" aria-hidden="true">
+    <div id="tickerContent" class="ticker-content"></div>
+  </div>
+  
+  <!-- Overlay QR Fullscreen -->
+  <div id="qrOverlay" class="qr-overlay">
+    <div class="qr-full">
+      <div class="qr-heading">Ofertas e Dízimos</div>
+      <img id="qrOverlayImg" src="assets/qr_code_oficial_2.png" alt="PIX QR Code">
+      <div class="big-text" id="qrKeyBig">44.595.304/0001-14</div>
+      <div class="small-text" id="qrObsBig">JD MARCIA – SETOR 13</div>
+      <div class="qr-close">Pressione ESC ou clique para fechar</div>
+    </div>
+  </div>
+
+  <script>
+    // Criar partículas animadas
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 15;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Elementos principais
+    const avisosSection = document.getElementById("avisosSection");
+    const pixSection    = document.getElementById("pixSection");
+    let tempoSection    = document.getElementById("tempoSection");
+    const btnAvisos     = document.getElementById("btnAvisos");
+    const btnPix        = document.getElementById("btnPix");
+    const btnTempo      = document.getElementById("btnTempo");
+    const btnReload     = document.getElementById("btnReload");
+    const list          = document.getElementById("avisosList");
+    const slidesEl      = list.querySelector('.slides');
+    const dotsEl        = list.querySelector('.dots');
+    let carouselTimer   = null;
+    let currentSlideIdx = 0;
+
+    // Referências QR overlay
+    const qrOverlay   = document.getElementById('qrOverlay');
+    const qrOverlayImg= document.getElementById('qrOverlayImg');
+    const qrBox       = document.getElementById('qrBox');
+    const qrImg       = document.getElementById('qrImg');
+    const pixKeyText  = document.getElementById('pixKeyText');
+    const pixObsText  = document.getElementById('pixObsText');
+    const qrKeyBig    = document.getElementById('qrKeyBig');
+    const qrObsBig    = document.getElementById('qrObsBig');
+
+    function setActive(which){
+      if(which === "avisos"){
+        avisosSection.style.display="block"; 
+        pixSection.style.display="none";
+        if (tempoSection) tempoSection.style.display = "none";
+        btnAvisos.classList.add("active"); 
+        btnPix.classList.remove("active");
+        if (btnTempo) btnTempo.classList.remove("active");
+        history.replaceState(null, "", "#avisos");
+      }else{
+        avisosSection.style.display="none"; 
+        if (which === 'pix') {
+          pixSection.style.display="block";
+          if (tempoSection) tempoSection.style.display = "none";
+          btnPix.classList.add("active"); 
+          btnAvisos.classList.remove("active");
+          if (btnTempo) btnTempo.classList.remove("active");
+          history.replaceState(null, "", "#pix");
+        } else if (which === 'tempo') {
+          pixSection.style.display = "none";
+          if (tempoSection) tempoSection.style.display = "block";
+          if (btnTempo) btnTempo.classList.add('active');
+          btnAvisos.classList.remove("active");
+          btnPix.classList.remove("active");
+          history.replaceState(null, "", "#tempo");
+        }
+      }
+    }
+
+    btnAvisos.addEventListener("click", ()=> setActive("avisos"));
+    btnPix.addEventListener("click",    ()=> setActive("pix"));
+    function openTempo(){
+      setActive('tempo');
+      // Ao abrir manualmente, decidir entre regressiva automática (se em horário)
+      // ou exibir relógio HH:MM:SS
+      if (!updateAutoMode(true)) {
+        startIdleClock();
+      }
+    }
+    if (btnTempo) btnTempo.addEventListener("click", openTempo);
+    btnReload.addEventListener("click", ()=> location.reload());
+
+    // Atalhos de teclado
+    window.addEventListener("keydown", (e)=>{
+      if(e.key==="1") setActive("avisos");
+      if(e.key==="2") setActive("pix");
+      if(e.key==="3") setActive("tempo");
+      if(e.key.toLowerCase()==="r") location.reload();
+    });
+
+    // Hash inicial
+    if(location.hash === "#pix"){ setActive("pix"); }
+    if(location.hash === "#tempo"){ setActive("tempo"); }
+
+    // Relógio responsivo
+    function tickClock(){
+      const el = document.getElementById("clock");
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2,"0");
+      const mm = String(now.getMinutes()).padStart(2,"0");
+      el.textContent = `${hh}:${mm}`;
+    }
+    tickClock(); 
+    setInterval(tickClock, 1000*15); // atualiza a cada 15s
+
+    // Busca avisos do backend
+    async function loadAvisos(){
+      try{
+        const base = window.BACKEND_URL;
+        const resp = await fetch(`${base}/api/avisos`, { cache: "no-store" });
+        if(!resp.ok) throw new Error("HTTP "+resp.status);
+        const json = await resp.json();
+        renderAvisos(Array.isArray(json.data) ? json.data : []);
+      }catch(err){
+        slidesEl.innerHTML = `<div class="error">Erro ao carregar avisos. Tentando novamente…</div>`;
+        dotsEl.innerHTML = '';
+        // tenta novamente em 15s
+        setTimeout(loadAvisos, 15000);
+      }
+    }
+
+    function renderAvisos(items){
+      const ativos = items.filter(a => (a.status||'').toString().toLowerCase() !== 'inativo');
+      const top = ativos.slice(0, 4);
+
+      slidesEl.innerHTML = '';
+      dotsEl.innerHTML = '';
+      currentSlideIdx = 0;
+      if (carouselTimer) { clearInterval(carouselTimer); carouselTimer = null; }
+
+      if (!top.length){
+        slidesEl.innerHTML = `<div class="empty">Nenhum aviso publicado no momento.</div>`;
+        return;
+      }
+
+      top.forEach((av, i) => {
+        const titulo = av.titulo || 'Aviso';
+        const msg    = av.mensagem || '';
+        const prio   = av.prioridade || 'Normal';
+        let timeChip = '';
+        if (av.timestamp) {
+          try {
+            const d = new Date(av.timestamp);
+            const dia = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+            const hora = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            timeChip = `${dia} • ${hora}`;
+          } catch {}
+        }
+        
+        const slide  = document.createElement('div');
+        slide.className = 'slide' + (i===0 ? ' active' : '');
+        slide.innerHTML = `
+          <div class="aviso">
+            <div class="titulo">${titulo}</div>
+            <div class="meta">${msg}</div>
+            <div class="chips">
+              ${prio && prio.toLowerCase() !== 'normal' ? `<span class="chip chip-prio">⚡ Prioridade: ${prio}</span>` : ''}
+              ${timeChip ? `<span class="chip chip-time">🕒 ${timeChip}</span>` : ''}
+            </div>
+          </div>`;
+        slidesEl.appendChild(slide);
+
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (i===0 ? ' active' : '');
+        dot.addEventListener('click', () => gotoSlide(i));
+        dotsEl.appendChild(dot);
+      });
+
+      carouselTimer = setInterval(nextSlide, 8000);
+    }
+
+    function gotoSlide(idx){
+      const slides = slidesEl.querySelectorAll('.slide');
+      const dots   = dotsEl.querySelectorAll('.dot');
+      if (!slides.length) return;
+      
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      
+      slides[idx].classList.add('active');
+      if (dots[idx]) dots[idx].classList.add('active');
+      currentSlideIdx = idx;
+    }
+
+    function nextSlide(){
+      const total = slidesEl.querySelectorAll('.slide').length;
+      if (!total) return;
+      const next = (currentSlideIdx + 1) % total;
+      gotoSlide(next);
+    }
+
+    // Teclas de atalho para o carrossel
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft')  {
+        const total = slidesEl.querySelectorAll('.slide').length || 1;
+        gotoSlide((currentSlideIdx - 1 + total) % total);
+      }
+      // Abrir/fechar overlay de QR
+      if (e.key.toLowerCase() === 'q') openQrOverlay();
+      if (e.key === 'Escape') closeQrOverlay();
+      // Timer controls
+      if (e.key === ' ') { e.preventDefault(); toggleTimer(); }
+      if (e.key.toLowerCase() === 'r') resetTimer();
+      if (e.key.toLowerCase() === 't') toggleTimerMode();
+      if (e.key.toLowerCase() === 'd') setCountdownDuration();
+    });
+
+    // Inicializar
+    createParticles();
+    loadAvisos();
+
+    // ====== Ticker ======
+    function initTicker(){
+      const el = document.getElementById('footerTicker');
+      const content = document.getElementById('tickerContent');
+      if (!el || !content) return;
+      const stored = localStorage.getItem('telao_ticker_text');
+      const text = stored || 'AD Jardim Márcia • Setor 13 – Santa Lúcia • Rua Dra. Zanaga Aboim Gomes, 211 • Cultos: Terça 19h • Quinta 19h • Domingo 18h';
+      if (text && text.trim()) {
+        document.body.classList.add('has-ticker');
+        const sep = '  •  ';
+        content.textContent = ` ${text} ${sep} ${text} ${sep} ${text} `;
+      } else {
+        document.body.classList.remove('has-ticker');
+      }
+    }
+    initTicker();
+    // Atalho para configurar ticker: M
+    window.addEventListener('keydown', (e)=>{
+      if (e.key.toLowerCase() === 'm'){
+        const cur = localStorage.getItem('telao_ticker_text') || '';
+        const val = prompt('Texto do rodapé (ticker):', cur);
+        if (val !== null){ localStorage.setItem('telao_ticker_text', val); initTicker(); }
+      }
+    });
+
+    // ====== Timer (cronômetro / contagem) ======
+    let timerMode = 'up'; // 'up' or 'down'
+    let timerRunning = false;
+    let timerStart = 0; // ms epoch
+    let elapsed = 0;    // ms
+    let countdownMs = 30 * 60 * 1000; // 30min padrão
+    let timerInterval = null;
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerModeEl  = document.getElementById('timerMode');
+
+    function fmtMMSS(ms){
+      const t = Math.max(0, Math.floor(ms/1000));
+      const m = Math.floor(t/60); const s = t%60;
+      return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+    function paintTimer(ms){
+      const m = Math.floor(Math.max(0, ms)/60000);
+      timerDisplay.classList.remove('timer-ok','timer-warn','timer-alert','timer-over');
+      if (timerMode==='up'){
+        if (m < 20) timerDisplay.classList.add('timer-ok');
+        else if (m < 35) timerDisplay.classList.add('timer-warn');
+        else timerDisplay.classList.add('timer-alert');
+      } else {
+        if (ms > 15*60*1000) timerDisplay.classList.add('timer-ok');
+        else if (ms > 5*60*1000) timerDisplay.classList.add('timer-warn');
+        else timerDisplay.classList.add('timer-alert');
+        if (ms <= 0) timerDisplay.classList.add('timer-over');
+      }
+    }
+    function renderTimer(){
+      let ms = 0;
+      if (timerMode==='up'){
+        ms = elapsed + (timerRunning ? (Date.now()-timerStart) : 0);
+        timerDisplay.textContent = fmtMMSS(ms);
+      } else {
+        const used = elapsed + (timerRunning ? (Date.now()-timerStart) : 0);
+        ms = countdownMs - used;
+        timerDisplay.textContent = fmtMMSS(ms);
+      }
+      paintTimer(ms);
+    }
+    // Modo relógio HH:MM:SS quando fora do horário do culto
+    let idleClockInterval = null;
+    function startIdleClock(){
+      if (idleClockInterval) return;
+      stopTimer(); // garante cronômetro parado
+      timerModeEl.textContent = 'Hora Atual';
+      timerDisplay.classList.remove('timer-ok','timer-warn','timer-alert');
+      const update = () => {
+        const n = new Date();
+        const h = String(n.getHours()).padStart(2,'0');
+        const m = String(n.getMinutes()).padStart(2,'0');
+        const s = String(n.getSeconds()).padStart(2,'0');
+        timerDisplay.textContent = `${h}:${m}:${s}`;
+      };
+      update();
+      idleClockInterval = setInterval(update, 500);
+    }
+    function stopIdleClock(){
+      if (idleClockInterval){ clearInterval(idleClockInterval); idleClockInterval = null; }
+    }
+    function startTimer(){ if (!timerRunning){ timerRunning = true; timerStart = Date.now(); tickTimer(); timerInterval=setInterval(tickTimer, 250);} }
+    function stopTimer(){ if (timerRunning){ elapsed += Date.now()-timerStart; timerRunning=false; clearInterval(timerInterval);} renderTimer(); }
+    function toggleTimer(){ timerRunning ? stopTimer() : startTimer(); }
+    function resetTimer(){ stopTimer(); elapsed = 0; renderTimer(); }
+    function toggleTimerMode(){ const wasRunning = timerRunning; stopTimer(); timerMode = (timerMode==='up'?'down':'up'); timerModeEl.textContent = (timerMode==='up'?'Cronômetro':'Contagem Regressiva'); if (wasRunning) startTimer(); renderTimer(); }
+    function setCountdownDuration(){ const m = prompt('Definir duração (minutos):', Math.round(countdownMs/60000)); if (m && !isNaN(+m)){ countdownMs = Math.max(1, +m)*60000; if (timerMode==='down') renderTimer(); } }
+    function tickTimer(){ renderTimer(); }
+    renderTimer();
+
+    // ====== Agendamento automático de seções (cultos) ======
+    // Terça(2), Quinta(4), Sábado(6): 19:00–21:00; Domingo(0): 18:00–20:00
+    // Tolerância de 10 minutos após o encerramento. Após isso, volta para Avisos.
+    function pad2(v){ return String(v).padStart(2,'0'); }
+    function setTime(baseDate, hh, mm){ const d = new Date(baseDate); d.setHours(hh, mm, 0, 0); return d; }
+    function weekOfMonth(d){ const first = new Date(d.getFullYear(), d.getMonth(), 1); const offset = (first.getDay()+6)%7; return Math.ceil((d.getDate()+offset)/7); }
+    function sundayLabel(d){
+      const w = weekOfMonth(d);
+      if (w===1) return 'Departamento do Pai';
+      if (w===2) return 'Departamento de Missões (Ceifa)';
+      if (w===3) return 'Departamento de Jovens';
+      if (w===4) return 'Departamento da Família';
+      return 'Culto de Celebração';
+    }
+    function daySchedule(now){
+      const day = now.getDay();
+      if (day===2 || day===4 || day===6){ // Tue/Thu/Sat
+        const start = setTime(now, 19, 0); const end = setTime(now, 21, 0);
+        const label = (day===2) ? 'Culto de Ensino/Doutrina' : (day===4 ? 'Culto (Departamentos/Adoração)' : 'Culto de Celebração');
+        return { start, end, label };
+      }
+      if (day===0){ // Sunday
+        const start = setTime(now, 18, 0); const end = setTime(now, 20, 0);
+        const label = `Domingo – ${sundayLabel(now)}`;
+        return { start, end, label };
+      }
+      return null;
+    }
+    function msBetween(a,b){ return b.getTime()-a.getTime(); }
+    function updateAutoMode(manualOpen=false){
+      const now = new Date();
+      const sched = daySchedule(now);
+      if (!sched) { return false; }
+      const tolEnd = new Date(sched.end.getTime()+10*60*1000);
+      const clockEl = document.getElementById('clock');
+      if (now >= sched.start && now <= tolEnd){
+        // Ativar Tempo e configurar contagem regressiva até o fim+tolerância
+        if (manualOpen) setActive('tempo');
+        stopIdleClock();
+        timerMode = 'down';
+        timerModeEl.textContent = `Contagem Regressiva • ${sched.label} (${pad2(sched.start.getHours())}:${pad2(sched.start.getMinutes())}–${pad2(sched.end.getHours())}:${pad2(sched.end.getMinutes())})`;
+        countdownMs = msBetween(sched.start, tolEnd);
+        elapsed = msBetween(sched.start, now);
+        if (elapsed < 0) elapsed = 0;
+        if (elapsed > countdownMs) elapsed = countdownMs;
+        if (!timerRunning) { startTimer(); } else { renderTimer(); }
+        if (clockEl) clockEl.classList.remove('over');
+        return true;
+      } else if (now > tolEnd) {
+        // Encerrado: voltar para avisos
+        if (!manualOpen) setActive('avisos');
+        stopIdleClock();
+        if (clockEl) clockEl.classList.add('over');
+        return false;
+      }
+      // Antes do início: se usuário abriu manualmente, mostrar relógio
+      if (clockEl) clockEl.classList.remove('over');
+      if (manualOpen) { stopTimer(); startIdleClock(); }
+      return false;
+    }
+    // Checagem a cada 30s
+    updateAutoMode();
+    setInterval(updateAutoMode, 30000);
+
+    // ====== QR Overlay handlers ======
+    function openQrOverlay(){
+      try {
+        if (qrOverlay && qrImg) {
+          qrOverlayImg.src = qrImg.src;
+          qrKeyBig.textContent = (pixKeyText && pixKeyText.textContent) || '';
+          qrObsBig.textContent = (pixObsText && pixObsText.textContent) || '';
+          qrOverlay.style.display = 'grid';
+        }
+      } catch {}
+    }
+    function closeQrOverlay(){ if (qrOverlay) qrOverlay.style.display = 'none'; }
+    if (qrBox) qrBox.addEventListener('click', openQrOverlay);
+    if (qrOverlay) qrOverlay.addEventListener('click', closeQrOverlay);
+  </script>
+</body>
+</html>

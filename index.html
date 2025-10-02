@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AD Jardim Márcia - Sistema da Congregação</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="AD Jardim Márcia">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <script src="config.js"></script>
+    <script src="backend-config.js"></script>
+
+    <!-- Favicons e Ícones para diferentes dispositivos -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta name="msapplication-TileColor" content="#4f46e5">
+    <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#4f46e5">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="style-melhorado.css">
+    <link rel="stylesheet" href="css/agenda-dinamica.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="header-brand">
+                <span class="header-logo">
+                    <img src="assets/adbvelem2_refined.png" alt="Brasão Assembleia de Deus Jardim Márcia">
+                </span>
+                <div class="header-info">
+                    <h1>AD Jardim Márcia</h1>
+                    <p>Assembleia de Deus Ministério Belém - Campinas</p>
+                    <p>Rua Dra. Zanaga Aboim Gomes, 211 - Jardim Yeda, Setor 13 - Santa Lúcia</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navigation">
+                <div class="nav-buttons">
+            <button class="nav-tab active" data-section="inicio">Início</button>
+            <button class="nav-tab" data-section="horarios">Horários</button>
+            <button class="nav-tab" data-section="louvores">Louvores</button>
+            <button class="nav-tab" data-section="oracoes">Orações</button>
+            <button class="nav-tab" data-section="visitantes">Visitantes</button>
+            <button class="nav-tab" data-section="pix">PIX</button>
+            <button class="nav-tab" data-section="agenda">Agenda</button>
+            <button class="nav-tab area-membro" onclick="window.open('https://adcamp.app/', '_blank')">Área do Membro</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Seção Início -->
+        <div id="inicio" class="section active">
+            <div class="welcome-section">
+                <h2>Bem-vindos à nossa Congregação!</h2>
+                <p>Setor 13 - Santa Lúcia</p>
+                
+                <div class="leadership-cards">
+                    <div class="leadership-card">
+                        <h3>Pastor Local</h3>
+                        <p>Pr. William Maia</p>
+                    </div>
+                    <div class="leadership-card">
+                        <h3>Pastor Setorial</h3>
+                        <p>Pr. Paulo Barbosa</p>
+                    </div>
+                    <div class="leadership-card">
+                        <h3>Pastor Presidente</h3>
+                        <p>Dep. Federal Pr. Paulo Freire da Costa</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mural-section">
+                <div class="mural-header">
+                    <h2 class="mural-title">📢 Mural de Avisos</h2>
+                    <div class="transmit-controls">
+                        <button class="transmit-btn" onclick="transmitirAvisos()" title="Transmitir Avisos no Telão">
+                            📺 Transmitir Avisos
+                        </button>
+                        <button class="transmit-btn pix-btn" onclick="transmitirPIX()" title="Transmitir PIX no Telão">
+                            💰 Transmitir PIX
+                        </button>
+                    </div>
+                </div>
+                <div id="mural-avisos-container">
+                    <!-- Avisos serão carregados aqui pelo JavaScript -->
+                    <p class="loading-avisos">Carregando avisos...</p>
+                </div>
+            </div>
+
+            <!-- Seção de Ação Rápida para Oração -->
+            <div class="quick-action-section">
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">🙏</div>
+                    <h3>Precisa de Oração?</h3>
+                    <p>Envie seu pedido de oração agora mesmo</p>
+                    <button class="quick-action-btn" onclick="showSection('oracoes')">
+                        Enviar Pedido de Oração
+                    </button>
+                </div>
+            </div>
+
+            <div class="redes-sociais">
+                <h2 class="redes-title">📱 Nossas Redes Sociais</h2>
+                <div class="redes-buttons">
+                    <a href="https://www.instagram.com/ad_jardim_marcia/" target="_blank" class="rede-btn">📸 Instagram</a>
+                    <a href="https://www.adcampinas.com.br/" target="_blank" class="rede-btn">🌐 Site Oficial</a>
+                    <a href="admin.html" class="rede-btn area-membro">🎛️ Painel Administrativo</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Horários -->
+        <div id="horarios" class="section">
+            <h2>Horários dos Cultos</h2>
+            <div class="horarios-grid">
+                <div class="horario-card">
+                    <h3>Terça-feira</h3>
+                    <p>19:00h</p>
+                    <p>Duração: 2h</p>
+                </div>
+                <div class="horario-card">
+                    <h3>Quinta-feira</h3>
+                    <p>19:00h</p>
+                    <p>Duração: 2h</p>
+                </div>
+                <div class="horario-card">
+                    <h3>1º Sábado do Mês</h3>
+                    <p>19:00h</p>
+                    <p>Santa Ceia</p>
+                </div>
+                <div class="horario-card">
+                    <h3>Domingo</h3>
+                    <p>09:00h - Escola Bíblica Dominical</p>
+                    <p>18:00h - Culto de Celebração</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Louvores -->
+        <div id="louvores" class="section">
+            <h2>Pedidos de Louvor</h2>
+            <form id="louvor-form">
+                <div class="form-group">
+                    <label for="cantor">Nome do Cantor/Grupo:</label>
+                    <input type="text" id="cantor" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="musica">Nome da Música:</label>
+                    <input type="text" id="musica" name="musica" required>
+                </div>
+                <div class="form-group">
+                    <label for="artista">Artista:</label>
+                    <input type="text" id="artista" name="artista">
+                </div>
+                <div class="form-group">
+                    <label for="youtube-link">Link do YouTube (opcional):</label>
+                    <input type="url" id="youtube-link" name="linkYouTube" placeholder="Ex: https://www.youtube.com/watch?v=video_id">
+                </div>
+                <div class="form-group">
+                    <label for="observacoes">Observações (opcional):</label>
+                    <textarea id="observacoes" name="observacoes" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn">Enviar Pedido de Louvor</button>
+            </form>
+        </div>
+
+        <!-- Seção Orações -->
+        <div id="oracoes" class="section">
+            <h2>Pedidos de Oração</h2>
+            <form id="oracao-form">
+                <div class="form-group">
+                    <label for="nome-oracao">Seu Nome (opcional):</label>
+                    <input type="text" id="nome-oracao" name="nome">
+                </div>
+                <div class="form-group">
+                    <label for="pedido-oracao">Seu Pedido de Oração:</label>
+                    <textarea id="pedido-oracao" name="pedido" rows="5" required></textarea>
+                </div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reservado" name="reservado">
+                        <label for="reservado">Manter este pedido reservado à liderança (opcional)</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Enviar Pedido de Oração</button>
+            </form>
+        </div>
+
+        <!-- Seção Visitantes -->
+        <div id="visitantes" class="section">
+            <h2>Cadastro de Visitantes</h2>
+            <form id="visitante-form">
+                <div class="form-group">
+                    <label for="nome-visitante">Seu Nome Completo:</label>
+                    <input type="text" id="nome-visitante" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefone-visitante">Seu Telefone (WhatsApp):</label>
+                    <input type="tel" id="telefone-visitante" name="telefone" placeholder="(XX) XXXXX-XXXX" required>
+                </div>
+                <div class="form-group">
+                    <label for="email-visitante">Seu E-mail (opcional):</label>
+                    <input type="email" id="email-visitante" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="endereco-visitante">Seu Endereço (opcional):</label>
+                    <input type="text" id="endereco-visitante" name="endereco">
+                </div>
+                <div class="form-group">
+                    <label for="como-conheceu">Como nos conheceu?</label>
+                    <select id="como-conheceu" name="comoConheceu" required>
+                        <option value="">Selecione...</option>
+                        <option value="amigo">Através de um amigo/familiar</option>
+                        <option value="redes-sociais">Redes Sociais</option>
+                        <option value="evento">Evento da Igreja</option>
+                        <option value="indicacao">Indicação</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                <div class="form-group checkbox-group">
+                    <label>Interesses (opcional):</label>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="interesse-estudo" name="interesses" value="estudo-biblico">
+                        <label for="interesse-estudo">Estudo Bíblico</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="interesse-discipulado" name="interesses" value="discipulado">
+                        <label for="interesse-discipulado">Discipulado</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="interesse-ministerio" name="interesses" value="ministerio">
+                        <label for="interesse-ministerio">Ministério</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="interesse-batismo" name="interesses" value="batismo">
+                        <label for="interesse-batismo">Batismo</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Cadastrar Visitante</button>
+            </form>
+        </div>
+
+        <!-- Seção PIX -->
+        <div id="pix" class="section">
+            <div class="section-header">
+                <h2>Ofertas e Dízimos</h2>
+                <button class="transmit-btn" onclick="window.open('telao.html', '_blank')" title="Transmitir no Telão">
+                    📺 Transmitir
+                </button>
+            </div>
+            <div class="pix-container">
+                <div class="qr-code-section">
+                    <img id="qrCodeImage" class="qr-code" src="assets/qr_code_oficial_2.png" alt="QR Code PIX oficial">
+                    <p>Escaneie o código acima com seu app bancário</p>
+                </div>
+                <div class="pix-info">
+                    <h3>Chave PIX da Igreja:</h3>
+                    <div class="pix-key">
+                        <span id="pix-key-display">44.595.304/0001-14</span>
+                        <button class="copy-btn" id="copy-pix">Copiar</button>
+                    </div>
+                    <h3>Observação para PIX:</h3>
+                    <div class="pix-key">
+                        <span id="pix-obs-display">JD MARCIA - SETOR 13</span>
+                        <button class="copy-btn" id="copy-obs">Copiar</button>
+                    </div>
+                    <div style="margin-top:14px">
+                        <button class="btn" id="send-proof-wa">📎 Enviar Comprovante para Tesouraria (WhatsApp)</button>
+                        <small style="display:block; margin-top:6px; opacity:.8">Contato: Irmã Márcia Rosa Siqueira — +55 19 99230-2478</small>
+                    </div>
+                    <h4>Como contribuir:</h4>
+                    <ol>
+                        <li>Abra o app do seu banco</li>
+                        <li>Escolha a opção PIX</li>
+                        <li>Escaneie o QR Code ou cole a chave PIX</li>
+                        <li>Adicione a observação "JD MARCIA - SETOR 13"</li>
+                        <li>Confirme a transação</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Agenda -->
+        <div id="agenda" class="section">
+            <h2>Agenda da Igreja</h2>
+            <div class="agenda-content">
+                <h3>📅 Próximos Eventos</h3>
+                <ul>
+                    <li><strong>Terça-feira:</strong> Culto de Ensino e Doutrina - 19h</li>
+                    <li><strong>Quinta-feira:</strong> Culto Livre - 19h <span style="opacity:.75">(programação em definição)</span></li>
+                    <li><strong>1º Sábado:</strong> Santa Ceia - 19h</li>
+                    <li><strong>Domingo:</strong> 09h Escola Bíblica Dominical • 18h conforme escala dos departamentos:<br>1º Domingo – Departamento do Pai<br>2º Domingo – Departamento de Missão<br>3º Domingo – Departamento dos Jovens<br>4º Domingo – Departamento da Família</li>
+                </ul>
+                <p>Para adicionar a agenda da igreja ao seu Google Agenda e receber notificações de eventos, clique no botão abaixo:</p>
+                <button class="btn" id="add-calendar">Adicionar ao Google Agenda</button>
+                <p>Deseja receber alertas de eventos importantes diretamente no seu celular ou computador?</p>
+                <button class="btn" id="receive-alerts">Receber Alertas</button>
+            </div>
+
+            <div class="ministerios-section">
+                <h3>Ministérios e Departamentos</h3>
+                <div class="ministerio-card">
+                    <h3>🎯 Missão Ceifa</h3>
+                    <p>Departamento de Missões</p>
+                    <p>Evangelização e alcance</p>
+                    <p>Contato: Departamento de Missão</p>
+                </div>
+                <div class="ministerio-card">
+                    <h3>👶 Instituto Paulo Freire</h3>
+                    <p>Instituto de crianças</p>
+                    <p>Educação cristã infantil</p>
+                    <p>Domingos durante o culto</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Área do Membro (Conteúdo dinâmico) -->
+        <div id="area-membro" class="section">
+            <h2>Área do Membro</h2>
+            <p>Esta área é exclusiva para membros da igreja. Em breve, mais funcionalidades estarão disponíveis aqui.</p>
+            <p>Para acessar, utilize suas credenciais de membro.</p>
+        </div>
+    </div>
+
+    <div id="notification-toast" class="notification-toast"></div>
+
+    <!-- Scripts -->
+    <script src="script-melhorado.js"></script>
+    <script src="js/agenda-dinamica.js"></script>
+</body>
+</html>

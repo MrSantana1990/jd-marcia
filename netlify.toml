@@ -1,0 +1,19 @@
+[[redirects]]
+  from = "/api/*"
+  to   = "https://jd-marcia-backend.onrender.com/api/:splat"
+  status = 200
+  force  = true
+
+[build]
+  publish = "."
+  command = "echo 'No build command specified, deploying static files.'"
+
+[context.production.environment]
+  VITE_API_BASE_URL = "https://jd-marcia-backend.onrender.com"
+
+[context.deploy-preview.environment]
+  VITE_API_BASE_URL = "https://jd-marcia-backend.onrender.com"
+
+[context.branch-deploy.environment]
+  VITE_code_output_response = "https://jd-marcia-backend.onrender.com"
+

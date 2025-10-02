@@ -1,0 +1,122 @@
+/* Estilos para a Agenda */
+.agenda-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.agenda-buttons button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #1976D2, #1565C0);
+    transform: translateY(-2px);
+}
+
+.agenda-info {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #4a69bd;
+}
+
+.agenda-info h3 {
+    color: #4a69bd;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.event-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.event-item:hover {
+    border-color: #4a69bd;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.event-date {
+    font-weight: 600;
+    color: #4a69bd;
+    min-width: 100px;
+}
+
+.event-title {
+    flex: 1;
+    margin: 0 15px;
+    font-weight: 500;
+}
+
+.event-time {
+    font-weight: 600;
+    color: #666;
+    background: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* Responsividade para agenda */
+@media (max-width: 768px) {
+    .agenda-buttons {
+        flex-direction: column;
+    }
+    
+    .agenda-buttons button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .event-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .event-date {
+        min-width: auto;
+    }
+    
+    .event-title {
+        margin: 0;
+    }
+}
+

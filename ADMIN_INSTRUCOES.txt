@@ -1,0 +1,46 @@
+    PASSOS RÁPIDOS (sem mudar o visual):
+
+    1) Copie estes dois arquivos para a pasta do projeto:
+       - js/backend-config.js
+       - js/admin-backend-wire.js
+
+    2) No arquivo 'admin.html', garanta que, ANTES do seu admin-script, você tem:
+       <!-- Load backend config early -->
+<script src="js/backend-config.js"></script>
+<!-- Wire alias 'B' so admin scripts can call B.getLouvores(), etc. -->
+<script src="js/admin-backend-wire.js"></script>
+<!-- (Your existing admin-script.js or inline scripts come after this) -->
+
+
+       Dica: mantenha apenas **um** backend-config no projeto. Apague quaisquer cópias antigas
+       (por exemplo 'backend-config.js' na raiz). Deixe SOMENTE 'js/backend-config.js'.
+
+    3) netlify.toml:
+       Se você quiser proxy local /api/* -> Render, substitua (ou crie) o arquivo 'netlify.toml' na raiz do projeto por:
+       --------------------------------------------------
+       # Netlify configuration
+[build]
+  publish = "."
+
+# Proxy /api/* to the Render backend when running `netlify dev` or when deployed
+[[redirects]]
+  from = "/api/*"
+  to = "https://jd-marcia-backend.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+       --------------------------------------------------
+
+    4) Rode local:
+       netlify dev
+
+       Acesse: http://localhost:8888/
+       O admin deve parar de exibir o erro "B.getLouvores is not a function" e as listas
+       devem carregar normalmente. O site principal deixará de mostrar "Erro de conexão"
+       quando o health /api/health responder OK.
+
+    Observações:
+    - Estes arquivos NÃO mexem no layout — apenas unem as três variações de backend que existiam
+      (B.*, BACKEND_CONFIG.*, BACKEND.api.*) e deixam tudo exposto em 'window.B'.
+    - Se ainda aparecer "Erro de conexão", abra o DevTools (F12) > Network e confira se /api/health
+      está sendo chamado e qual a resposta.

@@ -1,0 +1,16 @@
+# Build / cache
+node_modules/
+dist/
+.cache/
+*.log
+
+# Backups / temporários
+*.zip
+*.bak
+*-backup.*
+*-restore/
+
+# Ambiente / credenciais (revise se deve manter config.js)
+.env
+.env.*
+config.local.js
